@@ -1,7 +1,7 @@
+# -*- coding: utf-8 -*-
 from __future__ import division, unicode_literals
 from six.moves.builtins import object
 from six import with_metaclass
-# -*- coding: utf-8 -*-
 from django.conf import settings as django_settings
 import pytz
 from dateutil import rrule
@@ -38,7 +38,7 @@ class Event(with_metaclass(ModelBase, *get_model_bases())):
     start = models.DateTimeField(_("start"))
     end = models.DateTimeField(_("end"), help_text=_("The end time must be later than the start time."))
     title = models.CharField(_("title"), max_length=255)
-    description = models.TextField(_("description"), null=True, blank=True)
+    description = models.TextField(_("description"), blank=True)
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, verbose_name=_("creator"),
                                 related_name='creator')
     created_on = models.DateTimeField(_("created on"), auto_now_add=True)
@@ -157,7 +157,7 @@ class Event(with_metaclass(ModelBase, *get_model_bases())):
 
     def _occurrences_after_generator(self, after=None, tzinfo=pytz.utc):
         """
-        returns a generator that produces unpresisted occurrences after the
+        returns a generator that produces unpersisted occurrences after the
         datetime ``after``.
         """
 

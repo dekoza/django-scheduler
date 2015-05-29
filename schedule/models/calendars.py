@@ -5,6 +5,7 @@ from six import with_metaclass
 # -*- coding: utf-8 -*-
 
 import pytz
+import arrow
 from django.contrib.contenttypes import generic
 from django.db import models
 from django.db.models.base import ModelBase
@@ -178,7 +179,10 @@ class Calendar(with_metaclass(ModelBase, *get_model_bases())):
         in_datetime is the datetime you want to check against.  It defaults to
         datetime.datetime.now
         """
-        return self.events.order_by('-start').filter(start__lt=timezone.now())[:amount]
+        if callable(in_datetime):
+            in_datetime = in_datetime()
+        in_datetime = arrow.get(in_datetime).to(tzinfo).datetime
+        return self.events.order_by('-start').filter(start__lt=in_datetime)[:amount]
 
     def occurrences_after(self, date=None):
         return EventListManager(self.events.all()).occurrences_after(date)
@@ -203,7 +207,8 @@ class CalendarRelationManager(models.Manager):
             object_id=object_id,
             calendar=calendar,
             distinction=distinction,
-            content_object=content_object
+            content_object=content_object,
+            inheritable=inheritable
         )
         cr.save()
         return cr
