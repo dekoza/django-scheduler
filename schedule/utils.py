@@ -16,7 +16,7 @@ from schedule.conf.settings import (
 class EventListManager(object):
     """
     This class is responsible for doing functions on a list of events. It is
-    used to when one has a list of events and wants to access the occurrences
+    used when one has a list of events and wants to access the occurrences
     from these events in as a group
     """
 

@@ -372,10 +372,9 @@ class Occurrence(with_metaclass(ModelBase, *get_model_bases())):
         if self.description is None and self.event_id:
             self.description = self.event.description
 
+    @property
     def moved(self):
         return self.original_start != self.start or self.original_end != self.end
-
-    moved = property(moved)
 
     def move(self, new_start, new_end):
         self.start = new_start

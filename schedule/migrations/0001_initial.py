@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
                 ('object_id', models.IntegerField()),
-                ('distinction', models.CharField(null=True, max_length=20, verbose_name='distinction')),
+                ('distinction', models.CharField(null=True, max_length=20, verbose_name='distinction', db_index=True)),
                 ('inheritable', models.BooleanField(default=True, verbose_name='inheritable')),
                 ('calendar', models.ForeignKey(to='schedule.Calendar', verbose_name='calendar')),
                 ('content_type', models.ForeignKey(to='contenttypes.ContentType')),

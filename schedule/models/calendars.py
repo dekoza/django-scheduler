@@ -84,11 +84,9 @@ class CalendarManager(models.Manager):
             return self.get_calendar_for_object(obj, distinction)
         except Calendar.DoesNotExist:
             if name is None:
-                calendar = Calendar(name=str(obj))
-            else:
-                calendar = Calendar(name=name)
-            calendar.slug = slugify(calendar.name)
-            calendar.save()
+                name = str(obj)
+            slug = slugify(name)
+            calendar = self.create(name=name, slug=slug)
             calendar.create_relation(obj, distinction)
             return calendar
 
@@ -202,7 +200,7 @@ class CalendarRelationManager(models.Manager):
         """
         ct = ContentType.objects.get_for_model(type(content_object))
         object_id = content_object.id
-        cr = CalendarRelation(
+        cr = self.create(
             content_type=ct,
             object_id=object_id,
             calendar=calendar,
@@ -210,7 +208,6 @@ class CalendarRelationManager(models.Manager):
             content_object=content_object,
             inheritable=inheritable
         )
-        cr.save()
         return cr
 
 
@@ -242,7 +239,7 @@ class CalendarRelation(with_metaclass(ModelBase, *get_model_bases())):
     content_type = models.ForeignKey(ContentType)
     object_id = models.IntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
-    distinction = models.CharField(_("distinction"), max_length=20, null=True)
+    distinction = models.CharField(_("distinction"), max_length=20, null=True, db_index=True)
     inheritable = models.BooleanField(_("inheritable"), default=True)
 
     objects = CalendarRelationManager()
