@@ -6,7 +6,7 @@ from six import with_metaclass
 
 import pytz
 import arrow
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.db import models
 from django.db.models.base import ModelBase
 from django.db.models import Q
@@ -238,7 +238,7 @@ class CalendarRelation(with_metaclass(ModelBase, *get_model_bases())):
     calendar = models.ForeignKey(Calendar, verbose_name=_("calendar"))
     content_type = models.ForeignKey(ContentType)
     object_id = models.IntegerField()
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey('content_type', 'object_id')
     distinction = models.CharField(_("distinction"), max_length=20, db_index=True)
     inheritable = models.BooleanField(_("inheritable"), default=True)
 
