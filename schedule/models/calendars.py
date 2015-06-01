@@ -239,7 +239,7 @@ class CalendarRelation(with_metaclass(ModelBase, *get_model_bases())):
     content_type = models.ForeignKey(ContentType)
     object_id = models.IntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
-    distinction = models.CharField(_("distinction"), max_length=20, null=True, db_index=True)
+    distinction = models.CharField(_("distinction"), max_length=20, db_index=True)
     inheritable = models.BooleanField(_("inheritable"), default=True)
 
     objects = CalendarRelationManager()

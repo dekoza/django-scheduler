@@ -53,7 +53,7 @@ class Rule(with_metaclass(ModelBase, *get_model_bases())):
     name = models.CharField(_("name"), max_length=32)
     description = models.TextField(_("description"))
     frequency = models.CharField(_("frequency"), choices=freqs, max_length=10)
-    params = models.TextField(_("params"), null=True, blank=True)
+    params = models.TextField(_("params"), blank=True)
 
     class Meta(object):
         verbose_name = _('rule')

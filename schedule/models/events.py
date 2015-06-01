@@ -334,7 +334,7 @@ class EventRelation(with_metaclass(ModelBase, *get_model_bases())):
     content_type = models.ForeignKey(ContentType)
     object_id = models.IntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
-    distinction = models.CharField(_("distinction"), max_length=20, null=True)
+    distinction = models.CharField(_("distinction"), max_length=20, blank=True, db_index=True)
 
     objects = EventRelationManager()
 
@@ -350,8 +350,8 @@ class EventRelation(with_metaclass(ModelBase, *get_model_bases())):
 @python_2_unicode_compatible
 class Occurrence(with_metaclass(ModelBase, *get_model_bases())):
     event = models.ForeignKey(Event, verbose_name=_("event"))
-    title = models.CharField(_("title"), max_length=255, blank=True, null=True)
-    description = models.TextField(_("description"), blank=True, null=True)
+    title = models.CharField(_("title"), max_length=255, blank=True)
+    description = models.TextField(_("description"), blank=True)
     start = models.DateTimeField(_("start"))
     end = models.DateTimeField(_("end"))
     cancelled = models.BooleanField(_("cancelled"), default=False)
